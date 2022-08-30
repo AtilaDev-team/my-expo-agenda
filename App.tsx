@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import * as Calendar from 'expo-calendar';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   Dimensions,
-  Button,
   FlatList,
 } from 'react-native';
 import CalendarPicker, {
@@ -16,6 +16,8 @@ import useCalendar from '@atiladev/usecalendar';
 
 import { Header } from './components/Header';
 import { AgendaModal } from './components/Modal';
+import { Button } from './components/Button/';
+import Spacer from './components/Spacer';
 
 const modalWidth = Dimensions.get('window').width;
 
@@ -26,6 +28,7 @@ export default function App() {
     addEventsToCalendar,
     deleteCalendar,
     openSettings,
+    getEvents,
   } = useCalendar('My Expo Agenda', 'purple', 'my-expo-agenda');
 
   const [visible, setVisible] = useState(false);
@@ -50,6 +53,8 @@ export default function App() {
     DateChangedCallback | undefined
   >();
 
+  const [events, setEvents] = useState<Calendar.Event[] | undefined>();
+
   const createCalAndEvent = async () => {
     const granted = await getPermission();
 
@@ -63,6 +68,9 @@ export default function App() {
             new Date(selectedDate.toString()),
             new Date(selectedDate.toString())
           );
+
+          const listEvent = await getEvents();
+          setEvents(listEvent);
         } catch (e) {
           // Something went wrong
         }
@@ -73,6 +81,14 @@ export default function App() {
   };
 
   const removeCalendar = () => deleteCalendar();
+
+  useEffect(() => {
+    async function loadEvents() {
+      const events = await getEvents();
+      setEvents(events);
+    }
+    loadEvents();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -90,8 +106,8 @@ export default function App() {
         style={{ marginTop: 20, flex: 1, flexDirection: 'row', padding: 20 }}
       >
         <FlatList
-          data={[1, 2, 3, 4, 5, 6]}
-          renderItem={({ item }) => <Text>{item}</Text>}
+          data={events}
+          renderItem={({ item }) => <Text>{item.title}</Text>}
         />
       </View>
 
@@ -127,16 +143,16 @@ export default function App() {
             }}
           >
             <Button
-              title='Add'
+              title='Cancel'
               onPress={() => {
-                createCalAndEvent();
                 setEventTitle('');
                 closeModal();
               }}
             />
             <Button
-              title='Cancel'
+              title='Add'
               onPress={() => {
+                createCalAndEvent();
                 setEventTitle('');
                 closeModal();
               }}
@@ -170,21 +186,21 @@ export default function App() {
             style={{
               flex: 1,
               flexDirection: 'row',
-              justifyContent: 'space-around',
               marginTop: 30,
             }}
           >
             <Button
-              title='Continue'
+              title='Cancel'
               onPress={() => {
-                removeCalendar();
                 closeModalRemove();
               }}
             />
-
+            <Spacer w={5} />
             <Button
-              title='Cancel'
+              title='Continue'
               onPress={() => {
+                setEvents(undefined);
+                removeCalendar();
                 closeModalRemove();
               }}
             />

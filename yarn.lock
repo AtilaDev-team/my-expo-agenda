@@ -10,10 +10,10 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@atiladev/usecalendar@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.npmjs.org/@atiladev/usecalendar/-/usecalendar-0.1.9.tgz"
-  integrity sha512-gFwZ+mCJHlfacdvfA16Z8LgbdJ5TmqFpfszO02gPMwHLdXP4Rt74nFiP4VdO3Xt6tUSoggKYcwLJKAccFgT4vQ==
+"@atiladev/usecalendar@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@atiladev/usecalendar/-/usecalendar-0.2.0.tgz#eb3dfe5f6cae2dfb262fb81916520daca77a7e83"
+  integrity sha512-LPrrZK04HjTb7+dRz6xdGD6R6AqdnVyjFZX1bC394yxer93oZrWK84N/NJN8SyJhAP7R4uKq68mqTgy8/+i0Qg==
 
 "@babel/code-frame@7.10.4", "@babel/code-frame@~7.10.4":
   version "7.10.4"

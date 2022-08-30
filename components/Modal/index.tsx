@@ -1,5 +1,6 @@
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Modal from 'react-native-modal';
+import { styles } from './Modal.styles';
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -17,10 +18,3 @@ export const AgendaModal = ({ children, isVisible }: Props) => {
     </Modal>
   );
 };
-
-export const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
