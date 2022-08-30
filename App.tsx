@@ -5,8 +5,12 @@ import { Header } from './components/Header';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Header />
-      <Text>My Expo Agenda</Text>
+      <Header
+        onPressLeft={() => {}}
+        onPressRight={() => {}}
+        title={'My Expo Agenda'}
+      />
+
       <StatusBar style='light' />
     </View>
   );

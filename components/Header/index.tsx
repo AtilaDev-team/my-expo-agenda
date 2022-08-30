@@ -1,45 +1,47 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import { Feather as Icon } from '@expo/vector-icons';
 
-export const Header = () => {
+import { styles } from './Header.styles';
+
+type Props = {
+  onPressLeft: () => void;
+  onPressRight: () => void;
+  title: string;
+  headerColor?: string;
+  textColor?: string;
+};
+
+export const Header = ({
+  onPressLeft,
+  onPressRight,
+  title,
+  headerColor = 'purple',
+  textColor = '#fff',
+}: Props) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: headerColor }]}>
       <View style={styles.headerContainer}>
         {/* Left button */}
-        <View>
-          <Text style={styles.text}>Btn1</Text>
-        </View>
+        <Icon.Button
+          name='x'
+          size={26}
+          color={textColor}
+          style={{ backgroundColor: headerColor }}
+          onPress={onPressLeft}
+        />
+
         {/* Header Title */}
-        <View>
-          <Text style={styles.text}>My Expo Agenda</Text>
-        </View>
+        <Text style={styles.text}>{title}</Text>
+
         {/* Right button */}
-        <View>
-          <Text style={styles.text}>Btn2</Text>
-        </View>
+        <Icon.Button
+          name='plus-circle'
+          size={26}
+          color={textColor}
+          style={{ backgroundColor: headerColor }}
+          onPress={onPressRight}
+        />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    height: 110,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    paddingHorizontal: 15,
-  },
-  headerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 67,
-    justifyContent: 'space-between',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: '600',
-  },
-});
