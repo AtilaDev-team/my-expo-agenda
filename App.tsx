@@ -1,10 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import * as Calendar from 'expo-calendar';
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { View, Text, TextInput, FlatList } from 'react-native';
-import CalendarPicker, {
-  DateChangedCallback,
-} from 'react-native-calendar-picker';
+import CalendarPicker from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
 
 import { AgendaModal } from './components/AgendaModal';
@@ -36,17 +33,10 @@ export default function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // const [visible, setVisible] = useState(false);
-  // const [visibleError, setVisibleError] = useState(false);
-  // const [visibleRemove, setVisibleRemove] = useState(false);
-  // const [eventTitle, setEventTitle] = useState('');
-
   const openModalNewEvent = () => {
     if (state.selectedDate) {
-      // setVisible(true);
       dispatch({ type: 'setVisibleModalNewEvent', payload: true });
     } else {
-      // setVisibleError(true);
       dispatch({ type: 'setVisibleModalError', payload: true });
     }
   };
@@ -56,24 +46,15 @@ export default function App() {
   };
 
   const closeModalError = () => {
-    // setVisibleError(false);
     dispatch({ type: 'setVisibleModalError', payload: false });
   };
 
   const openModalRemove = () => {
-    // setVisibleRemove(true);
     dispatch({ type: 'setVisibleModalRemove', payload: true });
   };
   const closeModalRemove = () => {
-    // setVisibleRemove(false);
     dispatch({ type: 'setVisibleModalRemove', payload: false });
   };
-
-  // const [selectedDate, setSelectedDate] = useState<
-  //   DateChangedCallback | undefined
-  // >();
-
-  // const [events, setEvents] = useState<Calendar.Event[] | undefined>();
 
   const createCalAndEvent = async () => {
     const granted = await getPermission();
@@ -90,7 +71,7 @@ export default function App() {
           );
 
           const listEvent = await getEvents();
-          // setEvents(listEvent);
+
           dispatch({ type: 'setEvents', payload: listEvent });
         } catch (e) {
           // Something went wrong
