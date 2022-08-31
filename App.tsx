@@ -7,7 +7,7 @@ import CalendarPicker, {
 } from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
 
-import { AgendaModal } from './components/Modal';
+import { AgendaModal } from './components/AgendaModal';
 import { Button } from './components/Button/';
 import Spacer from './components/Spacer';
 import { AgendaItem } from './components/AgendaItem';
@@ -97,7 +97,7 @@ export default function App() {
 
       {!!events?.length && <Text style={styles.textEvents}>Next Events</Text>}
 
-      <View style={styles.flatListcontainer}>
+      <View style={styles.flatListContainer}>
         <FlatList
           data={events}
           keyExtractor={(item) => item.id}

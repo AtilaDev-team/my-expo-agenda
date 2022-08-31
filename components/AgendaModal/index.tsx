@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import Modal from 'react-native-modal';
-import styles from './Modal.styles';
+import styles from './AgendaModal.styles';
 
 type Props = {
   children: JSX.Element | JSX.Element[];
