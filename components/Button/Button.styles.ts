@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   buttonContainer: {
     width: 110,
     alignItems: 'center',
@@ -15,3 +15,5 @@ export const styles = StyleSheet.create({
     color: 'purple',
   },
 });
+
+export default styles;

@@ -1,7 +1,8 @@
 import React from 'react';
 import * as Calendar from 'expo-calendar';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import Spacer from '../Spacer';
+import styles from './AgendaItem.styles';
 
 type Props = {
   item: Calendar.Event;
@@ -18,20 +19,3 @@ export const AgendaItem = ({ item }: Props) => {
     </View>
   );
 };
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderBottomWidth: 2,
-    borderBottomColor: '#E1BEE7',
-    paddingBottom: 5,
-    marginBottom: 15,
-    paddingLeft: 5,
-  },
-  textDate: {
-    fontWeight: 'bold',
-  },
-  eventText: {
-    fontSize: 16,
-  },
-});

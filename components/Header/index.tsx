@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 
-import { styles } from './Header.styles';
+import styles from './Header.styles';
 
 type Props = {
   onPressLeft: () => void;

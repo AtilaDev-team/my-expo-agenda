@@ -1,14 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Calendar from 'expo-calendar';
 import { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Dimensions,
-  FlatList,
-} from 'react-native';
+import { View, Text, TextInput, FlatList } from 'react-native';
 import CalendarPicker, {
   DateChangedCallback,
 } from 'react-native-calendar-picker';
@@ -19,8 +12,7 @@ import { Button } from './components/Button/';
 import Spacer from './components/Spacer';
 import { AgendaItem } from './components/AgendaItem';
 import { Header } from './components/Header/index';
-
-const modalWidth = Dimensions.get('window').width;
+import styles from './App.styles';
 
 export default function App() {
   const {
@@ -211,52 +203,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  calendarContainer: {
-    marginTop: 130,
-  },
-  modalContainer: {
-    height: '45%',
-    width: (modalWidth * 75) / 100,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  modalErrorContainer: {
-    alignItems: 'center',
-    height: '40%',
-    width: (modalWidth * 75) / 100,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  modalRemoveContainer: {
-    alignItems: 'center',
-    height: '43%',
-    width: (modalWidth * 75) / 100,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  flatListcontainer: {
-    flex: 1,
-    flexDirection: 'row',
-    padding: 20,
-  },
-  textEvents: {
-    alignSelf: 'flex-start',
-    marginLeft: 20,
-    marginTop: 40,
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});

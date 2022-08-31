@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Text } from 'react-native';
 
-import { styles } from './Button.styles';
+import styles from './Button.styles';
 
 type Props = {
   title: string;
