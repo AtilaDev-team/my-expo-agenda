@@ -1,17 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useReducer } from 'react';
-import { View, Text, TextInput, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
 
 import {
-  AgendaModal,
-  Button,
-  Spacer,
   AgendaItem,
   Header,
   ModalNewEvent,
   ModalError,
+  ModalRemove,
 } from './components';
 
 import reducer, { stateProps } from './reducer';
@@ -140,54 +138,21 @@ export default function App() {
         onPressCancel={closeModalNewEvent}
       />
 
-      {/* <ModalError /> */}
+      <ModalError
+        isVisible={state.visibleModalError}
+        onPress={closeModalError}
+      />
 
-      <AgendaModal isVisible={state.visibleModalError}>
-        <View style={styles.modalErrorContainer}>
-          <Text style={{ fontSize: 20 }}>You must select a date first!</Text>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              marginTop: 30,
-            }}
-          >
-            <Button title='Ok' onPress={closeModalError} />
-          </View>
-        </View>
-      </AgendaModal>
+      <ModalRemove
+        isVisible={state.visibleModalRemove}
+        onPressCancel={closeModalRemove}
+        onPressContinue={() => {
+          dispatch({ type: 'setEvents', payload: undefined });
+          removeCalendar();
+          closeModalRemove();
+        }}
+      />
 
-      <AgendaModal isVisible={state.visibleModalRemove}>
-        <View style={styles.modalRemoveContainer}>
-          <Text style={{ fontSize: 20 }}>
-            This actions will remove your actual calendar!
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              marginTop: 30,
-            }}
-          >
-            <Button
-              title='Cancel'
-              onPress={() => {
-                closeModalRemove();
-              }}
-            />
-            <Spacer w={5} />
-            <Button
-              title='Continue'
-              onPress={() => {
-                dispatch({ type: 'setEvents', payload: undefined });
-                removeCalendar();
-                closeModalRemove();
-              }}
-            />
-          </View>
-        </View>
-      </AgendaModal>
       <StatusBar style='light' />
     </View>
   );
