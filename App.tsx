@@ -14,10 +14,11 @@ import CalendarPicker, {
 } from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
 
-import { Header } from './components/Header';
 import { AgendaModal } from './components/Modal';
 import { Button } from './components/Button/';
 import Spacer from './components/Spacer';
+import { AgendaItem } from './components/AgendaItem';
+import { Header } from './components/Header/index';
 
 const modalWidth = Dimensions.get('window').width;
 
@@ -102,16 +103,15 @@ export default function App() {
         <CalendarPicker onDateChange={setSelectedDate} />
       </View>
 
-      <View
-        style={{ marginTop: 20, flex: 1, flexDirection: 'row', padding: 20 }}
-      >
+      {!!events?.length && <Text style={styles.textEvents}>Next Events</Text>}
+
+      <View style={styles.flatListcontainer}>
         <FlatList
           data={events}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <AgendaItem item={item} />}
         />
       </View>
-
-      <StatusBar style='light' />
 
       <AgendaModal isVisible={visible}>
         <View style={styles.modalContainer}>
@@ -207,6 +207,7 @@ export default function App() {
           </View>
         </View>
       </AgendaModal>
+      <StatusBar style='light' />
     </View>
   );
 }
@@ -245,5 +246,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  flatListcontainer: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 20,
+  },
+  textEvents: {
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+    marginTop: 40,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
