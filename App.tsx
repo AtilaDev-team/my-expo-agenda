@@ -4,13 +4,19 @@ import { View, Text, TextInput, FlatList } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
 
-import { AgendaModal } from './components/AgendaModal';
-import { Button } from './components/Button/';
-import { Spacer } from './components/Spacer';
-import { AgendaItem } from './components/AgendaItem';
-import { Header } from './components/Header/index';
-import styles from './App.styles';
+import {
+  AgendaModal,
+  Button,
+  Spacer,
+  AgendaItem,
+  Header,
+  ModalNewEvent,
+  ModalError,
+} from './components';
+
 import reducer, { stateProps } from './reducer';
+
+import styles from './App.styles';
 
 const initialState: stateProps = {
   visibleModalNewEvent: false,
@@ -121,53 +127,20 @@ export default function App() {
         />
       </View>
 
-      <AgendaModal isVisible={state.visibleModalNewEvent}>
-        <View style={styles.modalContainer}>
-          <Text
-            style={{
-              fontSize: 15,
-              marginBottom: 20,
-            }}
-          >
-            {state.selectedDate?.toString()}
-          </Text>
-          <TextInput
-            placeholder='Event Name'
-            style={{
-              paddingLeft: 5,
-              borderBottomWidth: 1,
-              borderColor: 'purple',
-              height: 26,
-            }}
-            onChangeText={(text) =>
-              dispatch({ type: 'setEventTitle', payload: text })
-            }
-            value={state.eventTitle}
-          />
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              marginTop: 30,
-            }}
-          >
-            <Button
-              title='Cancel'
-              onPress={() => {
-                closeModalNewEvent();
-              }}
-            />
-            <Button
-              title='Add'
-              onPress={() => {
-                createCalAndEvent();
-                closeModalNewEvent();
-              }}
-            />
-          </View>
-        </View>
-      </AgendaModal>
+      <ModalNewEvent
+        isVisible={state.visibleModalNewEvent}
+        selectedDate={state.selectedDate?.toString()}
+        onChangeText={(text) =>
+          dispatch({ type: 'setEventTitle', payload: text })
+        }
+        onPressAdd={() => {
+          createCalAndEvent();
+          closeModalNewEvent();
+        }}
+        onPressCancel={closeModalNewEvent}
+      />
+
+      {/* <ModalError /> */}
 
       <AgendaModal isVisible={state.visibleModalError}>
         <View style={styles.modalErrorContainer}>

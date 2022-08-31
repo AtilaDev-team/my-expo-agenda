@@ -8,9 +8,8 @@ import styles from './ModalNewEvent.styles';
 
 type Props = {
   isVisible: boolean;
-  selectedDate: DateChangedCallback | undefined;
+  selectedDate: string | undefined;
   onChangeText: (text: string) => void;
-  value: string;
   onPressCancel: () => void;
   onPressAdd: () => void;
 };
@@ -19,7 +18,6 @@ export const ModalNewEvent = ({
   isVisible,
   selectedDate,
   onChangeText,
-  value,
   onPressCancel,
   onPressAdd,
 }: Props) => {
@@ -31,7 +29,6 @@ export const ModalNewEvent = ({
           placeholder='Event Name'
           style={styles.input}
           onChangeText={onChangeText}
-          value={value}
         />
         <View style={styles.buttonsContainer}>
           <Button title='Cancel' onPress={onPressCancel} />

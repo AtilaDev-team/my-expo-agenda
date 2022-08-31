@@ -5,7 +5,7 @@ import { AgendaModal } from '..';
 import { Button } from '../../Button';
 
 import styles from './ModalRemove.styles';
-import Spacer from '../../Spacer';
+import { Spacer } from '../../Spacer';
 
 type Props = {
   isVisible: boolean;
