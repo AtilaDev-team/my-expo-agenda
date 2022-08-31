@@ -6,8 +6,6 @@ export type SpacerProps = {
   w?: number;
 };
 
-const Spacer = ({ h, w }: SpacerProps) => {
+export const Spacer = ({ h, w }: SpacerProps) => {
   return <View style={{ marginVertical: h, marginHorizontal: w }} />;
 };
-
-export default Spacer;

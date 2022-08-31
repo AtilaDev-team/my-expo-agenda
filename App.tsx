@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Calendar from 'expo-calendar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { View, Text, TextInput, FlatList } from 'react-native';
 import CalendarPicker, {
   DateChangedCallback,
@@ -9,10 +9,20 @@ import useCalendar from '@atiladev/usecalendar';
 
 import { AgendaModal } from './components/AgendaModal';
 import { Button } from './components/Button/';
-import Spacer from './components/Spacer';
+import { Spacer } from './components/Spacer';
 import { AgendaItem } from './components/AgendaItem';
 import { Header } from './components/Header/index';
 import styles from './App.styles';
+import reducer, { stateProps } from './reducer';
+
+const initialState: stateProps = {
+  visibleModalNewEvent: false,
+  visibleModalError: false,
+  visibleModalRemove: false,
+  eventTitle: '',
+  selectedDate: undefined,
+  events: undefined,
+};
 
 export default function App() {
   const {
@@ -24,29 +34,46 @@ export default function App() {
     getEvents,
   } = useCalendar('My Expo Agenda', 'purple', 'my-expo-agenda');
 
-  const [visible, setVisible] = useState(false);
-  const [visibleError, setVisibleError] = useState(false);
-  const [visibleRemove, setVisibleRemove] = useState(false);
-  const [eventTitle, setEventTitle] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const openModal = () => {
-    if (selectedDate) {
-      setVisible(true);
+  // const [visible, setVisible] = useState(false);
+  // const [visibleError, setVisibleError] = useState(false);
+  // const [visibleRemove, setVisibleRemove] = useState(false);
+  // const [eventTitle, setEventTitle] = useState('');
+
+  const openModalNewEvent = () => {
+    if (state.selectedDate) {
+      // setVisible(true);
+      dispatch({ type: 'setVisibleModalNewEvent', payload: true });
     } else {
-      setVisibleError(true);
+      // setVisibleError(true);
+      dispatch({ type: 'setVisibleModalError', payload: true });
     }
   };
-  const closeModal = () => setVisible(false);
-  const closeModalError = () => setVisibleError(false);
+  const closeModalNewEvent = () => {
+    dispatch({ type: 'setVisibleModalNewEvent', payload: false });
+    dispatch({ type: 'clear' });
+  };
 
-  const openModalRemove = () => setVisibleRemove(true);
-  const closeModalRemove = () => setVisibleRemove(false);
+  const closeModalError = () => {
+    // setVisibleError(false);
+    dispatch({ type: 'setVisibleModalError', payload: false });
+  };
 
-  const [selectedDate, setSelectedDate] = useState<
-    DateChangedCallback | undefined
-  >();
+  const openModalRemove = () => {
+    // setVisibleRemove(true);
+    dispatch({ type: 'setVisibleModalRemove', payload: true });
+  };
+  const closeModalRemove = () => {
+    // setVisibleRemove(false);
+    dispatch({ type: 'setVisibleModalRemove', payload: false });
+  };
 
-  const [events, setEvents] = useState<Calendar.Event[] | undefined>();
+  // const [selectedDate, setSelectedDate] = useState<
+  //   DateChangedCallback | undefined
+  // >();
+
+  // const [events, setEvents] = useState<Calendar.Event[] | undefined>();
 
   const createCalAndEvent = async () => {
     const granted = await getPermission();
@@ -54,16 +81,17 @@ export default function App() {
     if (granted) {
       await createCalendar();
 
-      if (selectedDate) {
+      if (state.selectedDate) {
         try {
           addEventsToCalendar(
-            eventTitle,
-            new Date(selectedDate.toString()),
-            new Date(selectedDate.toString())
+            state.eventTitle,
+            new Date(state.selectedDate.toString()),
+            new Date(state.selectedDate.toString())
           );
 
           const listEvent = await getEvents();
-          setEvents(listEvent);
+          // setEvents(listEvent);
+          dispatch({ type: 'setEvents', payload: listEvent });
         } catch (e) {
           // Something went wrong
         }
@@ -78,7 +106,7 @@ export default function App() {
   useEffect(() => {
     async function loadEvents() {
       const events = await getEvents();
-      setEvents(events);
+      dispatch({ type: 'setEvents', payload: events });
     }
     loadEvents();
   }, []);
@@ -87,25 +115,32 @@ export default function App() {
     <View style={styles.container}>
       <Header
         onPressLeft={openModalRemove}
-        onPressRight={openModal}
+        onPressRight={openModalNewEvent}
         title={'My Expo Agenda'}
       />
       <View style={styles.calendarContainer}>
-        {/* @ts-ignore */}
-        <CalendarPicker onDateChange={setSelectedDate} minDate={new Date()} />
+        <CalendarPicker
+          onDateChange={(evt) =>
+            // @ts-ignore
+            dispatch({ type: 'setSelectedDate', payload: evt })
+          }
+          minDate={new Date()}
+        />
       </View>
 
-      {!!events?.length && <Text style={styles.textEvents}>Next Events</Text>}
+      {!!state.events?.length && (
+        <Text style={styles.textEvents}>Next Events</Text>
+      )}
 
       <View style={styles.flatListContainer}>
         <FlatList
-          data={events}
+          data={state.events}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <AgendaItem item={item} />}
         />
       </View>
 
-      <AgendaModal isVisible={visible}>
+      <AgendaModal isVisible={state.visibleModalNewEvent}>
         <View style={styles.modalContainer}>
           <Text
             style={{
@@ -113,7 +148,7 @@ export default function App() {
               marginBottom: 20,
             }}
           >
-            {selectedDate?.toString()}
+            {state.selectedDate?.toString()}
           </Text>
           <TextInput
             placeholder='Event Name'
@@ -123,8 +158,10 @@ export default function App() {
               borderColor: 'purple',
               height: 26,
             }}
-            onChangeText={setEventTitle}
-            value={eventTitle}
+            onChangeText={(text) =>
+              dispatch({ type: 'setEventTitle', payload: text })
+            }
+            value={state.eventTitle}
           />
           <View
             style={{
@@ -137,23 +174,21 @@ export default function App() {
             <Button
               title='Cancel'
               onPress={() => {
-                setEventTitle('');
-                closeModal();
+                closeModalNewEvent();
               }}
             />
             <Button
               title='Add'
               onPress={() => {
                 createCalAndEvent();
-                setEventTitle('');
-                closeModal();
+                closeModalNewEvent();
               }}
             />
           </View>
         </View>
       </AgendaModal>
 
-      <AgendaModal isVisible={visibleError}>
+      <AgendaModal isVisible={state.visibleModalError}>
         <View style={styles.modalErrorContainer}>
           <Text style={{ fontSize: 20 }}>You must select a date first!</Text>
           <View
@@ -169,7 +204,7 @@ export default function App() {
         </View>
       </AgendaModal>
 
-      <AgendaModal isVisible={visibleRemove}>
+      <AgendaModal isVisible={state.visibleModalRemove}>
         <View style={styles.modalRemoveContainer}>
           <Text style={{ fontSize: 20 }}>
             This actions will remove your actual calendar!
@@ -191,7 +226,7 @@ export default function App() {
             <Button
               title='Continue'
               onPress={() => {
-                setEvents(undefined);
+                dispatch({ type: 'setEvents', payload: undefined });
                 removeCalendar();
                 closeModalRemove();
               }}

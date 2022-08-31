@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Calendar from 'expo-calendar';
 import { View, Text } from 'react-native';
-import Spacer from '../Spacer';
+import { Spacer } from '../Spacer';
 import styles from './AgendaItem.styles';
 
 type Props = {
