@@ -92,7 +92,7 @@ export default function App() {
       />
       <View style={styles.calendarContainer}>
         {/* @ts-ignore */}
-        <CalendarPicker onDateChange={setSelectedDate} />
+        <CalendarPicker onDateChange={setSelectedDate} minDate={new Date()} />
       </View>
 
       {!!events?.length && <Text style={styles.textEvents}>Next Events</Text>}
