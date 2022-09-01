@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@atiladev/usecalendar": "^0.2.0",
+    "@atiladev/usecalendar": "^0.3.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "expo": "~46.0.9",
     "expo-calendar": "~10.3.0",

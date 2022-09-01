@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useReducer } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import useCalendar from '@atiladev/usecalendar';
+// import useCalendar from '@atiladev/usecalendar';
 
 import {
   AgendaItem,
@@ -10,20 +10,25 @@ import {
   ModalNewEvent,
   ModalError,
   ModalRemove,
+  ModalNoCalendar,
 } from './components';
 
 import reducer, { stateProps } from './reducer';
 
 import styles from './App.styles';
+import useCalendar from '@atiladev/usecalendar';
 
 const initialState: stateProps = {
   visibleModalNewEvent: false,
   visibleModalError: false,
   visibleModalRemove: false,
+  visibleModalNoCalendar: false,
   eventTitle: '',
   selectedDate: undefined,
   events: undefined,
 };
+
+const calendarName = 'My Expo Agenda';
 
 export default function App() {
   const {
@@ -33,7 +38,8 @@ export default function App() {
     deleteCalendar,
     openSettings,
     getEvents,
-  } = useCalendar('My Expo Agenda', 'purple', 'my-expo-agenda');
+    getCalendarId,
+  } = useCalendar(calendarName, 'purple', 'my-expo-agenda');
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -53,11 +59,24 @@ export default function App() {
     dispatch({ type: 'setVisibleModalError', payload: false });
   };
 
-  const openModalRemove = () => {
-    dispatch({ type: 'setVisibleModalRemove', payload: true });
+  const openModalRemove = async () => {
+    const calendarId = await getCalendarId();
+    if (calendarId) {
+      dispatch({ type: 'setVisibleModalRemove', payload: true });
+    } else {
+      openModalNoCalendar();
+    }
   };
   const closeModalRemove = () => {
     dispatch({ type: 'setVisibleModalRemove', payload: false });
+  };
+
+  const openModalNoCalendar = () => {
+    dispatch({ type: 'setVisibleModalNoCalendar', payload: true });
+  };
+
+  const closeModalNoCalendar = () => {
+    dispatch({ type: 'setVisibleModalNoCalendar', payload: false });
   };
 
   const createCalAndEvent = async () => {
@@ -143,8 +162,14 @@ export default function App() {
         onPress={closeModalError}
       />
 
+      <ModalNoCalendar
+        isVisible={state.visibleModalNoCalendar}
+        onPress={closeModalNoCalendar}
+      />
+
       <ModalRemove
         isVisible={state.visibleModalRemove}
+        calendarName={calendarName}
         onPressCancel={closeModalRemove}
         onPressContinue={() => {
           dispatch({ type: 'setEvents', payload: undefined });

@@ -1,3 +1,4 @@
+export * from './AgendaModal/ModalNoCalendar/index';
 export * from './AgendaItem';
 export * from './AgendaModal';
 export * from './AgendaModal/ModalError';

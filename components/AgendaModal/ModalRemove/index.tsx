@@ -11,18 +11,21 @@ type Props = {
   isVisible: boolean;
   onPressCancel: () => void;
   onPressContinue: () => void;
+  calendarName: string;
 };
 
 export const ModalRemove = ({
   isVisible,
   onPressCancel,
   onPressContinue,
+  calendarName,
 }: Props) => {
   return (
     <AgendaModal isVisible={isVisible}>
       <View style={styles.modalRemoveContainer}>
         <Text style={styles.text}>
-          This actions will remove your actual calendar!
+          This actions will remove your{' '}
+          {<Text style={{ fontWeight: '500' }}>{calendarName}</Text>} calendar!
         </Text>
         <View style={styles.buttonsContainer}>
           <Button title='Cancel' onPress={onPressCancel} />
