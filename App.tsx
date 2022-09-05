@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import useCalendar from '@atiladev/usecalendar';
@@ -14,6 +14,7 @@ import {
 } from './components';
 import reducer, { stateProps } from './reducer';
 import styles from './App.styles';
+import { Calendar } from 'expo-calendar';
 
 const initialState: stateProps = {
   visibleModalNewEvent: false,
@@ -39,6 +40,7 @@ export default function App() {
   } = useCalendar(calendarName, 'purple', 'my-expo-agenda');
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [granted, setGranted] = useState<Calendar[] | undefined>();
 
   const openModalNewEvent = () => {
     if (state.selectedDate) {
@@ -76,9 +78,16 @@ export default function App() {
     dispatch({ type: 'setVisibleModalNoCalendar', payload: false });
   };
 
-  const createCalAndEvent = async () => {
-    const granted = await getPermission();
+  const askPermission = async () => {
+    const isGranted = await getPermission();
+    setGranted(isGranted);
+  };
 
+  useEffect(() => {
+    askPermission();
+  }, []);
+
+  const createCalAndEvent = async () => {
     if (granted) {
       const calendarId = await getCalendarId();
       if (!calendarId) {
