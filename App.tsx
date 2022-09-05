@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useReducer } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-// import useCalendar from '@atiladev/usecalendar';
+import useCalendar from '@atiladev/usecalendar';
 
 import {
   AgendaItem,
@@ -12,11 +12,8 @@ import {
   ModalRemove,
   ModalNoCalendar,
 } from './components';
-
 import reducer, { stateProps } from './reducer';
-
 import styles from './App.styles';
-import useCalendar from '@atiladev/usecalendar';
 
 const initialState: stateProps = {
   visibleModalNewEvent: false,
