@@ -80,7 +80,10 @@ export default function App() {
     const granted = await getPermission();
 
     if (granted) {
-      await createCalendar();
+      const calendarId = await getCalendarId();
+      if (!calendarId) {
+        await createCalendar();
+      }
 
       if (state.selectedDate) {
         try {
@@ -89,9 +92,7 @@ export default function App() {
             new Date(state.selectedDate.toString()),
             new Date(state.selectedDate.toString())
           );
-
           const listEvent = await getEvents();
-
           dispatch({ type: 'setEvents', payload: listEvent });
         } catch (e) {
           // Something went wrong
