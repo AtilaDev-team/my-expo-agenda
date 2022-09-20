@@ -30,6 +30,10 @@ $ yarn expo start
   <img src="https://github.com/AtilaDev-team/my-expo-agenda/blob/main/screenshots/pic07.png" width="300">
 </p>
 
+## Tutorial with example:
+
+- Medium link: ([@FavreLeandro](https://medium.com/@FavreLeandro/how-to-use-usecalendar-hook-for-expo-and-react-native-a1d2bcc3aa1c))
+
 ## Author
 
 #### Leandro Favre
