@@ -9,7 +9,11 @@
 ### Install:
 
 ```sh
-$ npm install or yarn
+#npm
+$ npm install
+
+#yarn
+yarn
 ```
 
 ### Run:
@@ -32,7 +36,7 @@ $ yarn expo start
 
 ## Tutorial with example:
 
-- Medium link: ([@FavreLeandro](https://medium.com/@FavreLeandro/how-to-use-usecalendar-hook-for-expo-and-react-native-a1d2bcc3aa1c))
+- [How to use useCalendar hook for React Native and Expo by @FavreLeandro](https://medium.com/@FavreLeandro/how-to-use-usecalendar-hook-for-expo-and-react-native-a1d2bcc3aa1c)
 
 ## Author
 
