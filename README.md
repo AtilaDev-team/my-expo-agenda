@@ -38,13 +38,19 @@ $ yarn expo start
 
 - [How to use useCalendar hook for React Native and Expo by @FavreLeandro](https://medium.com/@FavreLeandro/how-to-use-usecalendar-hook-for-expo-and-react-native-a1d2bcc3aa1c)
 
-## Author
+## Authors
 
 #### Leandro Favre
 
-- Github: ([@AtilaDev-team](https://github.com/AtilaDev-team))
+- Github: ([@AtilaDev](https://github.com/AtilaDev))
 
 - Twitter: ([@FavreLeandro](https://twitter.com/FavreLeandro))
+
+#### Aman Mittal
+
+- Github: ([@amandeepmittal](https://github.com/amandeepmittal))
+
+- Twitter: ([@amanhimself](https://twitter.com/amanhimself))
 
 ## License
 
